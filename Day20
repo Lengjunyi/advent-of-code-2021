@@ -1,0 +1,29 @@
+converter = input()
+input()
+C = 400 # board size
+D = 100 # input size
+
+graph = [[False] * C for i in range(C)]
+for i in range(D):
+    s = input()
+    for j in range(D):
+        graph[(C-D)//2+i][(C-D)//2+j] = True if s[j] == "#" else False
+
+for time in range(50):
+    graph_ = [[False] * C for i in range(C)]
+    for i in range(C):
+        for j in range(C):
+            if i==0 or j==0 or i==C-1 or j==C-1:
+                graph_[i][j] = not graph[i][j]
+            else:
+                s = "".join(["1" if graph[ii][jj] else "0" for jj in range(j-1, j+2) for ii in range(i-1, i+2)])
+                graph_[i][j] = True if converter[int(s, base = 2)] == "#" else False
+    graph = graph_
+
+
+count = 0
+for i in graph:
+    for j in i:
+        if j:
+            count+=1
+print(count)
