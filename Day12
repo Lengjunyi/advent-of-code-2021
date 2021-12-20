@@ -1,0 +1,26 @@
+g = set()
+n = set()
+for i in range(25):
+    x, y = input().split("-")
+    g.add((x,y))
+    g.add((y,x))
+    n.add(x)
+    n.add(y)
+
+def bash(prevs, b):
+    total = 0
+    last = prevs[-1]
+    for node in n:
+        if (last, node) in g:
+            if node == "end":
+                total += 1
+            elif node != "start":
+                if node in prevs and node[0].islower():
+                    if b:
+                        total += bash(prevs + [node], False)
+                else:
+                    total += bash(prevs + [node], b)
+    return total
+
+print(bash(["start"], False))
+print(bash(["start"], True))
