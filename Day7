@@ -1,0 +1,27 @@
+# part 1 was simply summing up poses[-i-1] - poses[i], already deleted
+
+poses = list(map(int, input().split(",")))
+nums = [0] * 2000
+for i in poses:
+    nums[i] += 1
+costs = [0] * 2000
+
+n = 0
+vcost = 0
+cost = 0
+for i in range(2000):
+    vcost += n
+    cost += vcost
+    costs[i] += cost
+    n += nums[i]
+
+n = 0
+vcost = 0
+cost = 0
+for i in range(1999, -1, -1):
+    vcost += n
+    cost += vcost
+    costs[i] += cost
+    n += nums[i]
+
+print(min(costs))
