@@ -1,0 +1,32 @@
+nums = list(map(int, input().split(",")))
+
+boards = []
+for i in range(100):
+	input()
+	boards.append([list(map(int, input().split())) for j in range(5)])
+
+def good(x):
+	if any([all([x[i][j] == True for j in range(5)]) for i in range(5)]):
+		return True
+	if any([all([x[i][j] == True for i in range(5)]) for j in range(5)]):
+		return True
+
+scores = []
+
+for n in nums:
+	for b in boards:
+		if good(b):
+			continue
+		for i in range(5):
+			for j in range(5):
+				if b[i][j] == n:
+					b[i][j] = True
+		if good(b):
+			s = 0
+			for i in b:
+				for j in i:
+					if j != True:
+						s += j
+			scores.append(s * n)
+
+print(scores[0], scores[-1])
