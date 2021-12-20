@@ -1,0 +1,30 @@
+s = input()
+input()
+
+substitutionDict = {}
+for i in range(100):
+    x, y = input().split(" -> ")
+    substitutionDict[x] = (x[0] + y, y + x[1])
+
+from collections import Counter
+
+pairCounter = Counter()
+for i in range(len(s) - 1):
+    pairCounter[s[i:i+2]] += 1
+
+for i in range(40):
+    c = Counter()
+    for j in substitutionDict:
+        x, y = substitutionDict[j]
+        c[x] += pairCounter[j]
+        c[y] += pairCounter[j]
+    pairCounter = c
+
+charCounter = Counter()
+for i in pairCounter:
+    charCounter[i[0]] += pairCounter[i]
+    charCounter[i[1]] += pairCounter[i]
+
+charCounter[s[0]] += 1
+charCounter[s[-1]] += 1
+print(((max(charCounter.values()))//2 - (min(charCounter.values()))//2))
