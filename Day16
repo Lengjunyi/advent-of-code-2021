@@ -1,0 +1,54 @@
+sr = input()
+s = "{0:b}".format(int(sr, base = 16)).zfill(4 * len(sr))
+
+def get(n):
+    global s
+    x, s = s[:n], s[n:]
+    return int(x, base = 2)
+
+total = 0
+
+def parse():
+    global s, total
+    pv, pt = get(3), get(3)
+    total += pv
+    if pt == 4:
+        num = 0
+        while True:
+            num *= 16
+            nn = get(5)
+            num += nn % 16
+            if nn < 16:
+                break
+        return num
+    else:
+        nums = []
+        if (get(1) == 0):
+            length = len(s) - 15 - get(15)
+            while len(s) != length:
+                nums.append(parse())
+        else:
+            pn = get(11)
+            for i in range(pn):
+                nums.append(parse())
+        if pt == 0:
+            return sum(nums)
+        elif pt == 1:
+            r = 1
+            for i in nums:
+                r *= i
+            return r
+        elif pt == 2:
+            return min(nums)
+        elif pt == 3:
+            return max(nums)
+        elif pt == 5:
+            return 1 if nums[0] > nums[1] else 0
+        elif pt == 6:
+            return 1 if nums[0] < nums[1] else 0
+        elif pt == 7:
+            return 1 if nums[0] == nums[1] else 0
+    print(s)
+
+print(parse())
+print(total)
