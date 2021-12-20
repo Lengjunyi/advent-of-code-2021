@@ -1,0 +1,19 @@
+dots = [[False for j in range(447 * 2 + 1)] for i in range(655 * 2 + 1)]
+
+for i in range(897):
+    x, y = map(int, input().split(","))
+    dots[x][y] = True
+
+# 0 if fold x, 1 otherwise
+for j in [0,1,0,1,0,1,0,1,0,1,1,1]:
+    lx = len(dots)
+    ly = len(dots[0])
+    if j == 0:
+        dots = [[dots[i][j] or dots[-i-1][j] for j in range(ly)] for i in range(lx//2)]
+    else:
+        dots = [[dots[i][j] or dots[i][-j-1] for j in range(ly//2)] for i in range(lx)]
+
+for dot in dots[::-1]:
+    for d in dot:
+        print("#" if d else ".", end = "")
+    print()
