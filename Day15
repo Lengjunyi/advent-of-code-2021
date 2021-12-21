@@ -1,0 +1,26 @@
+size = 100
+risk = [[10000000000000000] * 500 for i in range(500)]
+
+graph = [[None] * size for i in range(size)]
+for i in range(size):
+    inp = input()
+    for j in range(size):
+        graph[i][j] = int(inp[j])
+
+graph = [[(graph[i % size][j %size] + (i//size + j//size) - 1) % 9 + 1 for j in range(size * 5)] for i in range(size * 5)]
+
+import heapq
+heq = [(0,0)]
+risk[0][0] = 0
+
+while (heq):
+    xx, yy = heapq.heappop(heq)
+    for i in range(4):
+        x = xx + [1,0,-1,0][i]
+        y = yy + [0,1,0,-1][i]
+        if (x >= 0 and x < 500 and y >= 0 and y < 500):
+            if risk[x][y] > risk[xx][yy] + graph[x][y]:
+                risk[x][y] = risk[xx][yy] + graph[x][y]
+                heapq.heappush(heq, (x,y))
+
+print(risk[-1][-1])
