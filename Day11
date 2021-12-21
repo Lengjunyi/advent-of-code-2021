@@ -32,3 +32,4 @@ for loop in range(10000):
     if (sum(map(sum, m)) == 0):
         print(loop + 1)
         break
+        
