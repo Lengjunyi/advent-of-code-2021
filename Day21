@@ -1,0 +1,28 @@
+sa, sb, pa, pb, s = 0, 0, 6, 3, 0
+while True:
+    pa = ((pa + s*3 + 6) -1) % 10 + 1
+    s += 3
+    sa += pa
+    if sa >= 1000:
+        print(sb * s)
+        break
+    sa, sb, pa, pb = sb, sa, pb, pa
+
+DP = [[[[None] * 31 for _ in range(31)] for _ in range(11)] for _ in range(11)]
+def find(x,y,pa,pb):
+    if not DP[pa][pb][x][y]:
+        if y >= 21:
+            DP[pa][pb][x][y] = (0,1)
+        else:
+            ra,rb = 0,0
+            for i in range(1,4):
+                for j in range(1,4):
+                    for k in range(1,4):
+                        new_p = ((pa+i+j+k-1)%10)+1
+                        a,b = find(y,x + new_p, pb, new_p)
+                        ra, rb = ra+a, rb+b
+            DP[pa][pb][x][y] = (rb,ra)
+    return DP[pa][pb][x][y]
+
+
+print(max(find(0,0,6,3)))
